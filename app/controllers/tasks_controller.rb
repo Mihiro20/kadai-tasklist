@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_message, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
   
   
   def index
@@ -47,8 +47,8 @@ class TasksController < ApplicationController
   
   private
   
-  def set_message
-    @task = Message.find(params[:id])
+  def set_task
+    @task = Task.find(params[:id])
   end
     
     
