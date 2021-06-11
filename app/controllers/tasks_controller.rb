@@ -10,7 +10,9 @@ class TasksController < ApplicationController
   end
 
   def show
-    @tasks = current_user.tasks
+    if logged_in?
+      @task = current_user.tasks.find_by(id: params[:id])
+    end
   end
 
   def new
@@ -27,7 +29,7 @@ class TasksController < ApplicationController
         flash[:success] = 'タスクが追加されました'
         redirect_to @task
       else
-        @tasks = current_user.tasks
+        @task = current_user.tasks
         flash[:danger] = 'タスクが追加できません'
         render :new
       end
@@ -35,7 +37,9 @@ class TasksController < ApplicationController
   end
   
   def edit
-    @tasks = current_user.tasks
+    if logged_in?
+      @task = current_user.tasks.find_by(id: params[:id])
+    end
   end
 
   def update
