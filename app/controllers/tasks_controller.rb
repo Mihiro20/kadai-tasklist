@@ -13,10 +13,13 @@ class TasksController < ApplicationController
   end
 
   def new
+    if logged_in?
       @task = Task.new
+    end
   end
 
   def create
+    if logged_in?
       @task = current_user.tasks.build(task_params)
 
       if @task.save
@@ -27,12 +30,14 @@ class TasksController < ApplicationController
         flash[:danger] = 'タスクが追加できません'
         render :new
       end
+    end
   end
-
+  
   def edit
   end
 
   def update
+    if logged_in?
       if @task.update(task_params)
          flash[:success] = 'タスクが編集されました'
          redirect_to @task
@@ -40,13 +45,16 @@ class TasksController < ApplicationController
          flash.now[:danger] = 'タスクが編集されませんでした'
          render :edit
       end
+    end
   end
 
   def destroy
+    if logged_in?
       @task.destroy
 
       flash[:success] = 'タスクが削除されました'
       redirect_to tasks_url
+    end
   end
   
   private
@@ -57,6 +65,13 @@ class TasksController < ApplicationController
     
     
   def task_params
-        params.require(:task).permit(:content, :status)
+    params.require(:task).permit(:content, :status)
+  end
+  
+  def correct_user
+    @task = current_user.tasks.find_by(id: params[:id])
+    unless @task
+      redirect_to root_url
+    end
   end
 end
