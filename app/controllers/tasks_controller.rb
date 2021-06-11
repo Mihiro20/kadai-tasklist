@@ -23,7 +23,7 @@ class TasksController < ApplicationController
         flash[:success] = 'タスクが追加されました'
         redirect_to @task
       else
-        @tasks = current_user.tasks.order(id: :desc).page(params[:page])
+        @tasks = current_user.tasks
         flash[:danger] = 'タスクが追加できません'
         render :new
       end
