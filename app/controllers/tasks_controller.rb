@@ -11,7 +11,7 @@ class TasksController < ApplicationController
 
   def show
     if logged_in?
-      @task = current_user.tasks.find_by(id: params[:id])
+      @task = Task.find(params[:id])
     end
   end
 
@@ -38,7 +38,7 @@ class TasksController < ApplicationController
   
   def edit
     if logged_in?
-      @task = current_user.tasks.find_by(id: params[:id])
+      @task = Task.find(params[:id])
     end
   end
 
